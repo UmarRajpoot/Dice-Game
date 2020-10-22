@@ -15,6 +15,8 @@ document.getElementById("current-0").innerText = "0";
 document.getElementById("current-1").innerText = "0";
 
 // Code for Button
+// This is for the
+var lastdice;
 document.querySelector(".btn-roll").addEventListener("click", function () {
   if (gamePlaying) {
     // add the random number method
@@ -23,8 +25,15 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
     var diceDom = document.querySelector(".dice");
     diceDom.style.display = "block";
     diceDom.src = "dice-" + dice + ".png";
-
-    if (dice !== 1) {
+    //Update the round score if the rolled number is not a 1
+    // IF the current value and last dice value both will be 6 then current score will be 0
+    if (dice === 6 && lastdice === 6) {
+      //   console.log("Captured");
+      // Player losses the score
+      scores[activePlayer] = 0;
+      // Update the UI of current score
+      document.querySelector("#score-" + activePlayer).textContent = "0";
+    } else if (dice !== 1) {
       // Add the score
       roundScore += dice;
       document.querySelector(
@@ -32,10 +41,9 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
       ).textContent = roundScore;
     } else {
       // Next Player
-
       nextPlayer();
     }
-  } else {
+    lastdice = dice;
   }
 });
 
@@ -50,7 +58,7 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
       scores[activePlayer];
 
     // Next Player
-    if (scores[activePlayer] >= 20) {
+    if (scores[activePlayer] >= 100) {
       // console.log("You Win");
       document.querySelector("#name-" + activePlayer).textContent = "winner!";
       document.querySelector(".dice").style.display = "none";
@@ -73,14 +81,9 @@ function nextPlayer() {
   // Next Player
   activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
   roundScore = 0;
-  // document.getElementById("current-0").textContent = "0";
-  // document.getElementById("current-1").textContent = "0";
 
   document.querySelector(".player-0-panel").classList.toggle("active");
   document.querySelector(".player-1-panel").classList.toggle("active");
-
-  // document.querySelector(".player-0-panel").classList.remove("active");
-  // document.querySelector(".player-1-panel").classList.add("active");
 
   document.querySelector(".dice").style.display = "none";
 }
@@ -113,13 +116,3 @@ function init() {
   document.querySelector(".player-1-panel").classList.remove("active");
   document.querySelector(".player-0-panel").classList.add("active");
 }
-
-// dice = Math.floor(Math.random() * 6) + 1;
-
-// const c = (document.querySelector(
-//   "#current-" + activePlayer
-// ).textContent = dice);
-// // document.querySelector("#current-0").innerHTML = "<em>" + dice + "</em>";
-
-// const x = document.querySelector("#score-0").textContent;
-// // console.log(c);
