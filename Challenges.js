@@ -57,8 +57,16 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
     document.querySelector("#score-" + activePlayer).textContent =
       scores[activePlayer];
 
+    var input = document.querySelector(".final-score").value;
+    var winningScore;
+    if (input) {
+      var winningScore = input;
+    } else {
+      winningScore = 100;
+    }
+
     // Next Player
-    if (scores[activePlayer] >= 100) {
+    if (scores[activePlayer] >= winningScore) {
       // console.log("You Win");
       document.querySelector("#name-" + activePlayer).textContent = "winner!";
       document.querySelector(".dice").style.display = "none";
